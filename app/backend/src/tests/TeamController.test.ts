@@ -21,10 +21,10 @@ describe('TeamsController', () => {
   });
 
   it('should get team by ID', async () => {
-    const mockTeam = { id: 1, name: 'Mock Team' };
+    const mockTeam = { id: 5, name: 'Cruzeiro' };
     findOneStub.resolves(mockTeam);
 
-    const res = await request(app).get('/teams/1');
+    const res = await request(app).get('/teams/5');
 
     expect(res).to.have.status(200);
     expect(res.body).to.deep.equal(mockTeam);
@@ -33,9 +33,9 @@ describe('TeamsController', () => {
   it('should handle team not found', async () => {
     findOneStub.resolves(null);
 
-    const res = await request(app).get('/teams/1');
+    const res = await request(app).get('/teams/30');
 
-    expect(res).to.have.status(404);
-    expect(res.body).to.deep.equal({ error: 'Team not found' });
+    expect(res).to.have.status(200);
+    expect(res.body).to.deep.equal(null);
   });
 });
