@@ -1,5 +1,6 @@
 import * as express from 'express';
 import TeamsController from './controllers/teams.controller';
+import UsersController from './controllers/users.controller';
 
 class App {
   public app: express.Express;
@@ -13,6 +14,8 @@ class App {
     this.app.get('/', (req, res) => res.json({ ok: true }));
     this.app.get('/teams', TeamsController.getAll);
     this.app.get('/teams/:id', TeamsController.getById);
+
+    this.app.post('/login', UsersController.login);
   }
 
   private config():void {
