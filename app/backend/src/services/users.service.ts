@@ -22,6 +22,12 @@ class UsersService {
     const token = JWTtoken.signIn({ email });
     return { status: 200, data: { token } };
   }
+
+  // static async loginRole(email: string) {
+  //   const emailRole = await Users.findOne({ where: { email } }) as Users;
+  //   const { role } = emailRole;
+  //   return { status: 200, data: { role } };
+  // }
 }
 
 export default UsersService;
