@@ -1,8 +1,13 @@
-export default interface Matches {
-  id: number;
-  homeTeamId: number;
-  homeTeamGoals: number;
-  awayTeamId: number;
-  awayTeamGoals: number;
-  inProgress: boolean;
+interface MatchesIModel {
+  getAll(): Promise<MatchesI[]>
 }
+interface MatchesI {
+  id: number,
+  homeTeamId: number,
+  awayTeamId: number,
+  homeTeamGoals: number,
+  awayTeamGoals: number
+  inProgress: boolean,
+}
+
+export { MatchesI, MatchesIModel };
