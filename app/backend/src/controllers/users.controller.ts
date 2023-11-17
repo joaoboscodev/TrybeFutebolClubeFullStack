@@ -8,11 +8,11 @@ class UsersController {
     return res.status(result.status).json(result.data);
   }
 
-  // static async loginRole(req: Request, res: Response) {
-  //   const { user } = res.locals.users;
-  //   const result = await UsersService.loginRole(user.id);
-  //   return res.status(result.status).json(result.data);
-  // }
+  static async loginRole(req: Request, res: Response) {
+    const { email } = req.body.users;
+    const result = await UsersService.loginRole(email);
+    return res.status(result.status).json(result.data);
+  }
 }
 
 export default UsersController;

@@ -1,7 +1,7 @@
 import * as express from 'express';
 import TeamsController from './controllers/teams.controller';
 import UsersController from './controllers/users.controller';
-// import tokenValidation from './middlewares/tokenValidation';
+import tokenValidation from './middlewares/tokenValidation';
 import router from './routes';
 
 class App {
@@ -17,7 +17,7 @@ class App {
     this.app.get('/teams', TeamsController.getAll);
     this.app.get('/teams/:id', TeamsController.getById);
 
-    // this.app.get('/login/role', tokenValidation.isTokenValid, UsersController.loginRole);
+    this.app.get('/login/role', tokenValidation.isTokenValid, UsersController.loginRole);
     this.app.post('/login', UsersController.login);
 
     this.app.use(router);
