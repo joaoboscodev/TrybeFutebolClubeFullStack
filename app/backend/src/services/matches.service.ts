@@ -17,6 +17,10 @@ class MatchesService {
     const allMatchesInProgress = await this.ModelMatches.getAllInProgress(inProgress);
     return allMatchesInProgress;
   }
+
+  async finishMatchById(matchId: string): Promise<void> {
+    await this.ModelMatches.finishMatchById(matchId);
+  }
 }
 
 export default MatchesService;

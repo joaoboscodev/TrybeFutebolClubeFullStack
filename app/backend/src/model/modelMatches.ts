@@ -49,6 +49,10 @@ class ModelMatches implements MatchesIModel {
     });
     return result;
   }
+
+  async finishMatchById(id: string): Promise<void> {
+    await this.modelMatches.update({ inProgress: false }, { where: { id } });
+  }
 }
 
 export default ModelMatches;
