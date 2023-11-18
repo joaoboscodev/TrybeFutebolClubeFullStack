@@ -3,6 +3,7 @@ import Teams from '../database/models/Teams.model';
 import {
   MatchesI,
   MatchesIModel,
+  NewMatch,
 } from '../Interfaces/Matches';
 
 class ModelMatches implements MatchesIModel {
@@ -67,6 +68,18 @@ class ModelMatches implements MatchesIModel {
         where: { id },
       },
     );
+  }
+
+  async createMatch(match: NewMatch): Promise<MatchesI> {
+    const { homeTeamId, awayTeamId, homeTeamGoals, awayTeamGoals } = match;
+    const result = await this.modelMatches.create({
+      homeTeamId,
+      awayTeamId,
+      homeTeamGoals,
+      awayTeamGoals,
+      inProgress: true,
+    });
+    return result;
   }
 }
 

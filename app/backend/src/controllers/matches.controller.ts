@@ -38,6 +38,14 @@ class MatchesController {
 
     return res.status(200).json({ message: 'Score updated' });
   }
+
+  async createMatches(req: Request, res: Response) {
+    const newMatch = req.body;
+
+    const createdMatch = await this.matchesService.createMatch(newMatch);
+
+    return res.status(201).json(createdMatch);
+  }
 }
 
 export default MatchesController;

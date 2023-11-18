@@ -1,5 +1,6 @@
 interface MatchesIModel {
   getAll(): Promise<MatchesI[]>
+  createMatch(data: NewMatch): Promise<MatchesI>,
 }
 interface MatchesI {
   id: number,
@@ -10,4 +11,11 @@ interface MatchesI {
   inProgress: boolean,
 }
 
-export { MatchesI, MatchesIModel };
+interface NewMatch {
+  homeTeamId: number;
+  awayTeamId: number;
+  homeTeamGoals: number;
+  awayTeamGoals: number;
+}
+
+export { MatchesI, MatchesIModel, NewMatch };

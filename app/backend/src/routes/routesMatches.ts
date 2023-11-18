@@ -23,4 +23,8 @@ router.patch('/:id', tokenValidation.isTokenValid, (req: Request, res: Response)
   matchesController.updateScore(req, res);
 });
 
+router.post('/', tokenValidation.isTokenValid, (req: Request, res: Response) => {
+  matchesController.createMatches(req, res);
+});
+
 export default router;

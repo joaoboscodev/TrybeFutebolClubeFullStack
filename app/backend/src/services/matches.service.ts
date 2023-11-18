@@ -1,5 +1,5 @@
 import MatchesModel from '../model/modelMatches';
-import { MatchesI } from '../Interfaces/Matches';
+import { MatchesI, NewMatch } from '../Interfaces/Matches';
 
 class MatchesService {
   constructor(
@@ -27,6 +27,11 @@ class MatchesService {
     scoreUpdatedData: { homeTeamGoals: number; awayTeamGoals: number },
   ): Promise<void> {
     await this.ModelMatches.updateScore(matchId, scoreUpdatedData);
+  }
+
+  async createMatch(match: NewMatch): Promise<MatchesI> {
+    const newMatch = await this.ModelMatches.createMatch(match);
+    return newMatch;
   }
 }
 
