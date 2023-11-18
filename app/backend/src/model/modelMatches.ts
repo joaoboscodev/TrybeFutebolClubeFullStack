@@ -53,6 +53,21 @@ class ModelMatches implements MatchesIModel {
   async finishMatchById(id: string): Promise<void> {
     await this.modelMatches.update({ inProgress: false }, { where: { id } });
   }
+
+  async updateScore(
+    id: string,
+    scoreUpdatedData: { homeTeamGoals: number; awayTeamGoals: number },
+  ): Promise<void> {
+    await this.modelMatches.update(
+      {
+        homeTeamGoals: scoreUpdatedData.homeTeamGoals,
+        awayTeamGoals: scoreUpdatedData.awayTeamGoals,
+      },
+      {
+        where: { id },
+      },
+    );
+  }
 }
 
 export default ModelMatches;

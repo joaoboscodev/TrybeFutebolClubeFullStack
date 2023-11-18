@@ -21,6 +21,13 @@ class MatchesService {
   async finishMatchById(matchId: string): Promise<void> {
     await this.ModelMatches.finishMatchById(matchId);
   }
+
+  async updateScore(
+    matchId: string,
+    scoreUpdatedData: { homeTeamGoals: number; awayTeamGoals: number },
+  ): Promise<void> {
+    await this.ModelMatches.updateScore(matchId, scoreUpdatedData);
+  }
 }
 
 export default MatchesService;

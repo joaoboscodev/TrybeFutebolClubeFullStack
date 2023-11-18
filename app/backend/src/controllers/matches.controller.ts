@@ -29,6 +29,15 @@ class MatchesController {
 
     return res.status(200).json({ message: 'Finished' });
   }
+
+  async updateScore(req: Request, res: Response) {
+    const teamId = req.params.id;
+    const scoreUpdatedData = req.body;
+
+    await this.matchesService.updateScore(teamId, scoreUpdatedData);
+
+    return res.status(200).json({ message: 'Score updated' });
+  }
 }
 
 export default MatchesController;
