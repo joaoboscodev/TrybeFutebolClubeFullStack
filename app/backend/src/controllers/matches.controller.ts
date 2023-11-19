@@ -41,10 +41,23 @@ class MatchesController {
 
   async createMatches(req: Request, res: Response) {
     const newMatch = req.body;
+    console.log(newMatch);
 
-    const createdMatch = await this.matchesService.createMatch(newMatch);
+    if (newMatch.homeTeamId === newMatch.awayTeamId) {
+      return res.status(422).json(
+        { message: 'It is not possible to create a match with two equal teams' },
+      );
+    }
 
-    return res.status(201).json(createdMatch);
+    const checkedTeams = await this.matchesService.teamsExists(newMatch);
+
+    if (!checkedTeams) {
+      const createdMatch = await this.matchesService.createMatch(newMatch);
+
+      return res.status(201).json(createdMatch);
+    }
+
+    return res.status(404).json({ message: 'There is no team with such id!' });
   }
 }
 

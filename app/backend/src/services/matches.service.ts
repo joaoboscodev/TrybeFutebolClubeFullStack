@@ -33,6 +33,17 @@ class MatchesService {
     const newMatch = await this.ModelMatches.createMatch(match);
     return newMatch;
   }
+
+  async teamsExists(match: NewMatch) {
+    const homeTeamExists = await this.ModelMatches.teamExists(match.homeTeamId);
+    if (!homeTeamExists) {
+      return { message: 'There is no team with such id!' };
+    }
+    const awayTeamExists = await this.ModelMatches.teamExists(match.awayTeamId);
+    if (!awayTeamExists) {
+      return { message: 'There is no team with such id!' };
+    }
+  }
 }
 
 export default MatchesService;

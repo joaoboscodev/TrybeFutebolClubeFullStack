@@ -8,6 +8,7 @@ import {
 
 class ModelMatches implements MatchesIModel {
   modelMatches = Matches;
+  modelTeams = Teams;
 
   async getAll(): Promise<MatchesI[]> {
     const result = await this.modelMatches.findAll({
@@ -80,6 +81,11 @@ class ModelMatches implements MatchesIModel {
       inProgress: true,
     });
     return result;
+  }
+
+  async teamExists(teamId: number): Promise<boolean> {
+    const team = await this.modelTeams.findByPk(teamId);
+    return !!team;
   }
 }
 
