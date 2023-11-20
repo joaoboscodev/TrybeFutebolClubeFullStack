@@ -5,6 +5,7 @@ import {
   MatchesIModel,
   NewMatch,
   TeamMatches,
+  TeamStats,
 } from '../Interfaces/Matches';
 
 class ModelMatches implements MatchesIModel {
@@ -89,7 +90,7 @@ class ModelMatches implements MatchesIModel {
     return !!team;
   }
 
-  static finishedMatches() {
+  static async finishedMatches() {
     return Teams.findAll({
       include: [
         {
@@ -127,10 +128,9 @@ class ModelMatches implements MatchesIModel {
 
   static totalVictoriesCalculator(matchesFinished: MatchesI[]) {
     return matchesFinished.reduce((totalVictories, match) => {
-      const isHomeTeamWinner = match.homeTeamGoals > match.awayTeamGoals;
-      const isAwayTeamWinner = match.awayTeamGoals > match.homeTeamGoals;
+      const homeTeamWin = match.homeTeamGoals > match.awayTeamGoals;
 
-      return totalVictories + (isHomeTeamWinner || isAwayTeamWinner ? 1 : 0);
+      return totalVictories + (homeTeamWin ? 1 : 0);
     }, 0);
   }
 
@@ -172,6 +172,54 @@ class ModelMatches implements MatchesIModel {
       }
       return totalGoalsOwn;
     }, 0);
+  }
+
+  static sortByTotalPoints(teams: TeamStats[]) {
+    teams.sort((a: TeamStats, b: TeamStats) => {
+      if (b.totalPoints !== a.totalPoints) {
+        return b.totalPoints - a.totalPoints;
+      }
+      return b.goalsBalance - a.goalsBalance;
+    });
+
+    return teams;
+  }
+
+  static calculateGoalsBalance(matchesFinished: MatchesI[], teamId: number) {
+    const goalsOwn = matchesFinished.reduce((totalGOwn, match) => {
+      if (match.homeTeamId === teamId) {
+        return totalGOwn + match.awayTeamGoals;
+      }
+      return totalGOwn;
+    }, 0);
+
+    const goalsFavor = matchesFinished.reduce((totalGFavor, match) => {
+      if (match.homeTeamId === teamId) {
+        return totalGFavor + match.homeTeamGoals;
+      }
+      return totalGFavor;
+    }, 0);
+
+    const goalsBalance = goalsFavor - goalsOwn;
+    return goalsBalance;
+  }
+
+  static calculateEfficiency(matchesFinished: MatchesI[]) {
+    const totalGames = matchesFinished.length;
+
+    const matchResult = (matche: MatchesI) => {
+      if (matche.homeTeamGoals > matche.awayTeamGoals) {
+        return 3;
+      } if (matche.homeTeamGoals === matche.awayTeamGoals) {
+        return 1;
+      }
+      return 0;
+    };
+    const totalPoints = matchesFinished.reduce((acc, match) => acc + matchResult(match), 0);
+
+    const result = ((totalPoints / (totalGames * 3)) * 100).toFixed(2);
+
+    return result;
   }
 }
 

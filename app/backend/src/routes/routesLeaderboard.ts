@@ -5,7 +5,6 @@ const router = Router();
 
 router.get('/home', async (_req: Request, res: Response) => {
   const finishedMatches = await ModelMatches.finishedMatches();
-  // console.log(finishedMatches);
 
   const result = finishedMatches.map(async (team) => ({
     name: team.teamName,
@@ -16,11 +15,17 @@ router.get('/home', async (_req: Request, res: Response) => {
     totalLosses: ModelMatches.totalLossesCalculator(team.homeTeam),
     goalsFavor: ModelMatches.calculateGoalsFavor(team.homeTeam, team.id),
     goalsOwn: ModelMatches.calculateGoalsOwn(team.homeTeam, team.id),
+    goalsBalance: ModelMatches.calculateGoalsBalance(team.homeTeam, team.id),
+    efficiency: ModelMatches.calculateEfficiency(team.homeTeam),
   }));
 
   const resultFinal = await Promise.all(result);
-  // console.log(resultFinal);
-  return res.status(200).json(resultFinal);
+  console.log(resultFinal);
+
+  const sortedData = ModelMatches.sortByTotalPoints(resultFinal);
+  // console.log(sortedData);
+
+  return res.status(200).json(sortedData);
 });
 
 export default router;
