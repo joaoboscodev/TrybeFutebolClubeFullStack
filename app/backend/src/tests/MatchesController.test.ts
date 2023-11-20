@@ -4,6 +4,7 @@ import * as chai from 'chai';
 import chaiHttp = require('chai-http');
 import { app } from '../app';
 import MatchesService from '../services/matches.service';
+import ModelMatches from '../model/modelMatches';
 
 chai.use(chaiHttp);
 

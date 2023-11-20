@@ -18,4 +18,11 @@ interface NewMatch {
   awayTeamGoals: number;
 }
 
-export { MatchesI, MatchesIModel, NewMatch };
+type TeamMatches = {
+  id: number;
+  teamName: string;
+  homeTeam: MatchesI[];
+  awayTeam: MatchesI[];
+};
+
+export { MatchesI, MatchesIModel, NewMatch, TeamMatches };
